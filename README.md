@@ -10,5 +10,5 @@ Two benchmarks for forecasting and image processing have been made so far. No ro
 - Data:We use data provided by the John Hopkins University:https://github.com/CSSEGISandData/COVID-19 
 - Algorithms:So far, we applied a simple XGBoost for predicting the confirmed/recovered/deceased cases.
 1- Image-processing:
--Data:We use this repo:https://github.com/ieee8023/covid-chestxray-dataset 
+- Data:We use this repo:https://github.com/ieee8023/covid-chestxray-dataset 
 - AlgorithmsSo far, a tSNE analysis based on transfer learning visualized on the Tensorboard have been done.
