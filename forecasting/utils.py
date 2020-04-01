@@ -157,3 +157,21 @@ def get_recovery_mortality_rates(land_since_df):
   rates_df = pd.DataFrame({ 'Recovery': recovery_rate, 'Mortality': mortality_rate})
   
   return rates_df
+
+def data_splitor(land_since_df, title='Confirmed'):
+    confirmed = land_since_df[title].values
+    num_days = land_since_df[title].count()
+    y_train_ = confirmed[0:int(num_days*0.90)]
+    y_train = y_train_[0:int(num_days*0.70)]
+    y_valid = y_train_[int(num_days*0.70):]
+    y_test = confirmed[int(num_days*0.90):]
+    
+    num_train_days = len(y_train)
+    num_valid_days = len(y_valid)
+    num_test_days = len(y_test)
+    
+    x_train = np.arange(0, num_train_days).reshape(-1, 1)
+    x_valid = np.arange(0, num_valid_days).reshape(-1, 1)
+    x_test = np.arange(0, num_test_days).reshape(-1, 1)
+    
+    return x_train, y_train, x_valid, y_valid, x_test, y_test

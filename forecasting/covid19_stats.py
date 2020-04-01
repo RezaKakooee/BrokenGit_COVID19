@@ -50,6 +50,15 @@ rates_df = ut.get_recovery_mortality_rates(land_since_df)
 # for TopQ countries
 # mortality_rate, recovery_rate = get_mortality_recovery_rates()
 
+#%% Predictive modeling
+from predictive_modeling import XgbReg
+
+x_train, y_train, x_valid, y_valid, x_test, y_test = ut.data_splitor(land_since_df, title='Confirmed')
+model = XgbReg()
+best = model.train(x_train, y_train, x_valid, y_valid)
+y_pred, MSE = model.test(best, x_test, y_test)
+print("Root Mean Square Value:", MSE)
+
 Visualization = False
 if Visualization:
     vis.bar_plot(top_indexes, sum_tops_df)
