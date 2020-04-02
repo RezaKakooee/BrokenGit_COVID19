@@ -15,7 +15,7 @@ from settings import Params
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 
-#%%
+#%% self = Loader
 class Loader:
     def __init__(self, working_dir, COLAB=False):
         self.params = Params(working_dir, COLAB=COLAB)
@@ -32,10 +32,15 @@ class Loader:
         Labes = [f+'_'+'O' if str(s) == 'nan' else f+'_'+str(s) for f, s in zip(csv['finding'], csv['survival'])]
         
         ### Remove unnecessary columns
-        removable_cols = ['location', 'doi', ' url', 'license', 'view', 'modality',
-                           'offset', 'clinical notes', 'other notes', 'Unnamed: 16',
-                           'finding', 'survival']
+        cvs_columns = csv.columns
+        csv_unremovable_cols = ['patientid', 'sex', 'age', 'finding', 'survival',
+                                'date', 'filename']
         
+        # removable_cols = ['location', 'doi', ' url', 'license', 'view', 'modality',
+        #                    'offset', 'clinical notes', 'other notes', 'Unnamed: 22',
+        #                    'finding', 'survival']
+        
+        removable_cols = list(set(cvs_columns) - set(csv_unremovable_cols))
         for col in removable_cols:
             csv.drop(col, axis=1, inplace=True)
         

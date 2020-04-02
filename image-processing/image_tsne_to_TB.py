@@ -4,12 +4,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from settings import Params
-from make_sprite import images_to_sprite
-from loader import load_images
-from matplots import plotting
-from embeder import image_embeding_creator
-
 from sklearn.manifold import TSNE
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import euclidean_distances
@@ -20,11 +14,27 @@ import tensorflow as tf
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.contrib.tensorboard.plugins import projector
 
+from settings import Params
+from make_sprite import images_to_sprite
+from loader import Loader
+from matplots import plotting
+from embeder import Embeder
 
 #%% load model
-def get_data(datatype='image'):
-    if datatype == 'image':
-        return load_images()  
+def get_data(loader, datatype='image'):
+    if datatype == 'image':      
+        return loader.load_images()  
+
+def class_name2_index(labels):
+    unique_labels = np.unique(labels)
+    labels_dic = {}
+    for i, label in enumerate(unique_labels):
+        labels_dic.update({label:i})
+    labels_ind = []
+    for label in labels:
+        labels_ind.append(labels_dic[label])
+    return labels_ind
+    
 
 def load_model():
     return InceptionV3(include_top=False, pooling='avg')
@@ -33,8 +43,8 @@ def load_model():
 def get_features(model, images):
     return model.predict(images)
 
-def embeding_creator(images):
-    image_embeding_creator(images)
+def embeding_creator(embeder, images):
+    embeder.image_embeding_creator(images)
 
 def save_metadata(log_dir, metadata_path, labels):
     with open(metadata_path,'w') as f: # "metadata.tsv"
@@ -47,10 +57,13 @@ def save_model(log_dir):
     sess.run(tf.global_variables_initializer())
     saver = tf.train.Saver()
     saver.save(sess, os.path.join(log_dir, "model.ckpt"), 1)
-
+    
 #%% Run
-params = Params()
 if __name__ == '__main__':
+    COLAB = False
+    current_dir = os.getcwd()
+    working_dir = current_dir
+    params = Params(working_dir, COLAB=COLAB)
     # directory and file names
     imageset_dir = params.imageset_dir
     log_dir = params.log_dir #'minimalsample'
@@ -58,7 +71,8 @@ if __name__ == '__main__':
     metadata_path = params.metadata_path#"metadata.tsv"
     
     # load the whole image set
-    num_images, image_pathes, image_names, images_vec, images_list, images_mat, images_arr, labels = get_data()
+    loader = Loader(working_dir=working_dir, COLAB=True)
+    num_images, image_pathes, image_names, images_vec, images_list, images_mat, images_arr, labels = get_data(loader)
     IMG_W = params.img_targ_W
 
     # model
@@ -74,6 +88,7 @@ if __name__ == '__main__':
         distance_mat_euc = euclidean_distances(features, features)
         similarity_mat = 1- normalize(distance_mat_euc)
     
+    # Make sprite
     sprite_image = images_to_sprite(images_arr)
     ### save sprit images
     plt.imsave(params.sprite_image_path , sprite_image, cmap='gray')
@@ -87,10 +102,12 @@ if __name__ == '__main__':
     elif embeding_images_with == 'sim':
         embd_mat = similarity_mat 
         
-    embeding_creator(embd_mat)
+    embeder = Embeder(working_dir, COLAB=COLAB)
+    embeding_creator(embeder, embd_mat)
     
     # save metadata
-    save_metadata(log_dir, metadata_path, labels)
+    labels_ind = class_name2_index(labels)
+    save_metadata(log_dir, metadata_path, labels_ind)
     
     save_model(log_dir)
     
