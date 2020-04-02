@@ -4,6 +4,7 @@ forecasting/COVID-19
 forecasting/no-tracking
 forecasting/pd_profilings
 forecasting/*.html
+forecasting/*.csv
 
 image-processing/covid-chestxray-dataset
 image-processing/logs
