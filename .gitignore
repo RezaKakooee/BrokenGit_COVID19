@@ -10,6 +10,6 @@ image-processing/covid-chestxray-dataset
 image-processing/logs
 image-processing/image_tsne_to_TB.ipynb
 image-processing/itsloader.py
-image-processing/__pycache__
+#image-processing/__pycache__
 
 *.html
