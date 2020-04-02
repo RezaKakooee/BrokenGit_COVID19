@@ -8,7 +8,7 @@ import os
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from pandas_profiling import ProfileReport
+# from pandas_profiling import ProfileReport
 
 #%%
 def get_data(dataset_dir):
@@ -72,7 +72,7 @@ def get_pd_profiler(global_confirmed_df, global_recovered_df, global_deceased_df
 
 #%%
 def get_land_since(tops_confirmed_df, tops_recovered_df, 
-                   tops_deceased_df, start_dates, durations, delta_t, land='Iran'):
+                   tops_deceased_df, start_dates, durations, delta_t=1, land='Iran'):
     
   land_confirmed_since_df = tops_confirmed_df.loc[land,:].loc[start_dates[land]:]
   land_recovered_since_df = tops_recovered_df.loc[land,:].loc[start_dates[land]:]

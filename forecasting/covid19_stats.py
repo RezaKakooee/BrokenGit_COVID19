@@ -29,7 +29,9 @@ print('num_total_lands: {}, num_total_days: {} '.format(num_total_lands, num_tot
 #%% Get some of mostly affected lands
 num_tops = 20
 top_indexes, sum_tops_df, tops_confirmed_df, tops_recovered_df, tops_deceased_df = ut.get_tops(global_confirmed_df, global_recovered_df, global_deceased_df, num_tops)
-
+tops_confirmed_df.to_csv('tops_confirmed.csv', index=True)
+tops_recovered_df.to_csv('tops_recovered.csv', index=True)
+tops_deceased_df.to_csv('tops_deceased.csv', index=True)
 #%% Recognize the start dates
 start_dates, durations = ut.find_start_dates(tops_confirmed_df)
 
@@ -49,15 +51,6 @@ rates_df = ut.get_recovery_mortality_rates(land_since_df)
 
 # for TopQ countries
 # mortality_rate, recovery_rate = get_mortality_recovery_rates()
-
-#%% Predictive modeling
-from predictive_modeling import XgbReg
-
-x_train, y_train, x_valid, y_valid, x_test, y_test = ut.data_splitor(land_since_df, title='Confirmed')
-model = XgbReg()
-best = model.train(x_train, y_train, x_valid, y_valid)
-y_pred, MSE = model.test(best, x_test, y_test)
-print("Root Mean Square Value:", MSE)
 
 Visualization = False
 if Visualization:

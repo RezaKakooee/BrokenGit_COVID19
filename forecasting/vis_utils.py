@@ -206,3 +206,35 @@ def rate_plot(rates_df, land='Iran'):
   fig.update_layout(title={'text': 'Mortality and Recovery Rates in {}'.format(land), 'y':0.9, 'x':0.5, 'xanchor': 'center', 'yanchor': 'top'})
   fig.show()
   plot(fig)
+  
+
+#%%
+def plot_predictions(y_real, y_pred, title='Confirmed'):
+    fig = go.Figure()
+    xdata = np.arange(0,len(y_real))
+    ydata = y_real
+    fig.add_trace(go.Scatter(
+                    x=xdata,
+                    y=ydata,
+                    name='Real',
+                    opacity=0.8,
+                    line = dict(color='royalblue')))
+    
+    ydata = y_pred
+    fig.add_trace(go.Scatter(
+                    x=xdata,
+                    y=ydata,
+                    name='Predictions',
+                    opacity=0.8,
+                    line = dict(color='firebrick')))
+    fig.update_layout(
+        title={
+            'text': title,
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'},
+             xaxis_title="Days in prediction domain",
+             yaxis_title="Predicted number of {} cases".format(title))
+    fig.show()
+    plot(fig)
