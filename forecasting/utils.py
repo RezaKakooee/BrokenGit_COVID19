@@ -158,7 +158,7 @@ def get_recovery_mortality_rates(land_since_df):
   
   return rates_df
 
-def data_splitor(land_since_df, title='Confirmed'):
+def data_splitter(land_since_df, title='Confirmed'):
     confirmed = land_since_df[title].values
     num_days = land_since_df[title].count()
     y_train_ = confirmed[0:int(num_days*0.90)]

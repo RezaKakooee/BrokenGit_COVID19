@@ -33,7 +33,7 @@ land_since_df = ut.get_land_since(tops_confirmed_df, tops_recovered_df, tops_dec
                                start_dates, durations, delta_t=1, land=land)
 
 
-x_train, y_train, x_valid, y_valid, x_test, y_test = ut.data_splitor(land_since_df, title=TITLE)
+x_train, y_train, x_valid, y_valid, x_test, y_test = ut.data_splitter(land_since_df, title=TITLE)
 
 space={'max_depth': hp.quniform("max_depth", 3, 18, 1),
         'gamma': hp.uniform ('gamma', 1,9),
@@ -53,7 +53,7 @@ def hyperparameter_tuning(space):
                          min_child_weight=space['min_child_weight'],
                          colsample_bytree=space['colsample_bytree'])
     
-    evaluation = [( x_train, y_train), ( x_valid, y_valid)]
+    evaluation = [(x_train, y_train), (x_valid, y_valid)]
     
     reg.fit(x_train, y_train,
             eval_set=evaluation, eval_metric="rmse",
@@ -83,7 +83,7 @@ xg_reg = xgb.XGBRegressor(objective ='reg:squarederror',
                           reg_alpha = best['reg_alpha'],
                           reg_lambda = best['reg_lambda'],
                           alpha = 10, 
-                          n_estimators = 50000)
+                          n_estimators = 5000)
 
 xg_reg.fit(x_test, y_test)
 
