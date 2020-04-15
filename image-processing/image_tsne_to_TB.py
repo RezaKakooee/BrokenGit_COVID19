@@ -15,8 +15,8 @@ from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.contrib.tensorboard.plugins import projector
 
 from settings import Params
-from make_sprite import images_to_sprite
 from loader import Loader
+from make_sprite import images_to_sprite
 from matplots import plotting
 from embeder import Embeder
 
@@ -25,7 +25,7 @@ def get_data(loader, datatype='image'):
     if datatype == 'image':      
         return loader.load_images()  
 
-def class_name2_index(labels):
+def class_name_to_index(labels):
     unique_labels = np.unique(labels)
     labels_dic = {}
     for i, label in enumerate(unique_labels):
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     embeding_creator(embeder, embd_mat)
     
     # save metadata
-    labels_ind = class_name2_index(labels)
+    labels_ind = class_name_to_index(labels)
     save_metadata(log_dir, metadata_path, labels_ind)
     
     save_model(log_dir)

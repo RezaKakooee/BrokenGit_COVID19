@@ -29,5 +29,24 @@ class Params:
         self.img_targ_W = 299
         self.embeding_images_with = 'sim'# 'sim'# 'feat'# 'img'# 
         self.similarity_metric = 'cosine'
+        
+        self.IMG_SIZE = 255
+        
+        self.BATCH_SIZE = 32
+            
+        self.INITIAL_EPOCHS = 5 # the number of epochs for training the base model
+        self.FINE_TUNE_EPOCHS = 15 # the number of epochs for training the fine tune model
+        self.TOTAL_EPOCHS =  self.INITIAL_EPOCHS + self.FINE_TUNE_EPOCHS
+            
+        self.base_learning_rate = 0.0001
+        self.tune_learning_rate = self.base_learning_rate/10
+        
+        self.fine_tune_at = 275
+        
+        # cross validation
+        self.use_cv = 0
+        self.n_split = 3
+        
+        
                 
 #params = Params()
