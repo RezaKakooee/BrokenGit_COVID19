@@ -1,7 +1,6 @@
 forecasting/.ipynb_checkpoints
 forecasting/__pycache__
 forecasting/COVID-19
-forecasting/no-tracking
 forecasting/pd_profilings
 forecasting/*.html
 forecasting/*.csv
