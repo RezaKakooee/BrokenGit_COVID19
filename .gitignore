@@ -11,8 +11,8 @@ image-processing/__pycache__
 image-processing/covid-chestxray-dataset
 image-processing/heatmaps/__pycache__
 image-processing/heatmaps/output_arrays
-image-processing/logfiles
-image-processing/logs
+image-processing/clf_logs
+image-processing/tnse_logs
 image-processing/UoGeneva
 image-processing/image_tsne_to_TB.ipynb
 

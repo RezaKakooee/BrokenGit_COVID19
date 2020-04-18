@@ -59,4 +59,8 @@ path_prefix = 'covid-chestxray-dataset/images'
 path_postfix = [path_prefix + '/' + img_name for img_name in csv['filename']]
 csv.insert(6, 'path_postfix', path_postfix)
 
+## remove classes have one point
+grouped = csv.groupby(['label'])
+csv = grouped.filter(lambda x: x['label'].count() > 3)
+
 csv.to_csv('metadata_pub.csv', index=False)
